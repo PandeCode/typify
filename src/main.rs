@@ -24,10 +24,10 @@ fn app() -> Html {
     });
 
     html! {
-        <HashRouter>
+        <BrowserRouter>
             <NavBar />
             <Switch<router::Route> render={router::switch} />
-        </HashRouter>
+        </BrowserRouter>
     }
 }
 fn main() {

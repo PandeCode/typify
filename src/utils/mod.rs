@@ -70,7 +70,7 @@ pub fn get_spotify() -> AuthCodeSpotify {
             "user-read-currently-playing"
         ),
         state: get_state(),
-        redirect_uri: "http://localhost:8080".to_owned(),
+        redirect_uri: web_sys::window().unwrap().location().hostname().unwrap(),
         ..Default::default()
     };
 
