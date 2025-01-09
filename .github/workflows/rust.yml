@@ -1,0 +1,49 @@
+name: Rust
+
+on:
+    push:
+        branches: ["main"]
+    pull_request:
+        branches: ["main"]
+
+env:
+    CARGO_TERM_COLOR: always
+
+jobs:
+    build:
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v3
+            - uses: jetli/trunk-action@v0.5.0
+
+            - name: Add wasm toolchain
+              run: rustup target add wasm32-unknown-unknown
+
+            - name: Install TailwindCLI
+              run: |
+                  curl -sLO https://github.com/tailwindlabs/tailwindcss/releases/download/v3.4.3/tailwindcss-linux-x64 &&
+                  mv tailwindcss-linux-x64 tailwindcss &&
+                  chmod +x tailwindcss
+
+            - name: Run tests
+              run: cargo test --verbose
+
+            - name: Build
+              env:
+                  RSPOTIFY_CLIENT_ID: ${{ secrets.RSPOTIFY_CLIENT_ID }}
+                  RSPOTIFY_CLIENT_SECRET: ${{ secrets.RSPOTIFY_CLIENT_SECRET }}
+              run: PATH=$PWD:$PATH trunk build --release --minify --verbose
+
+            - name: Push generated webpage to branch `gh-pages`
+              run: |
+                  cd dist &&
+                  git config --global user.email "pandeshawnbenjamin@gmail.com" &&
+                  git config --global user.name "PandeCode" &&
+                  git init &&
+                  git add . &&
+                  git commit -m "Deploy website" &&
+                  git branch -M gh-pages &&
+                  git remote add origin https://${{ secrets.API_TOKEN_GITHUB }}@github.com/pandecode/typify
+                  git push --force origin gh-pages
+
+
