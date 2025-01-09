@@ -42,7 +42,7 @@ jobs:
                   git add . &&
                   git commit -m "Deploy website" &&
                   git branch -M gh-pages &&
-                  git remote add origin https://${{ secrets.API_TOKEN_GITHUB }}@github.com/pandecode/typify
+                  git remote add origin https://${{ secrets.API_TOKEN_GITHUB }}@github.com/pandecode/typify &&
                   git push --force origin gh-pages
 
 
