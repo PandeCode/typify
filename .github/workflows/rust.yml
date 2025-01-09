@@ -35,7 +35,6 @@ jobs:
               with:
                 path: target
                 key: typify-cache
-                save-always: true
 
             - name: Build
               run: PATH=$PWD:$PATH trunk build --release --minify --verbose
