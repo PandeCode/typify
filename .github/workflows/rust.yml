@@ -39,7 +39,7 @@ jobs:
             - name: Build
               run: PATH=$PWD:$PATH trunk build --release --minify --verbose
 
-            - name: Push generated webpage to branch `gh-pages`
+            - name: Push generated webpage to branch `deploy`
               run: |
                   cd dist &&
                   git config --global user.email "pandeshawnbenjamin@gmail.com" &&
@@ -47,8 +47,8 @@ jobs:
                   git init &&
                   git add . &&
                   git commit -m "Deploy website" &&
-                  git branch -M gh-pages &&
+                  git branch -M deploy &&
                   git remote add origin https://${{ secrets.API_TOKEN_GITHUB }}@github.com/pandecode/typify &&
-                  git push --force origin gh-pages
+                  git push --force origin deploy
 
 
